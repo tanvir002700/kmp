@@ -8,7 +8,7 @@ static VALUE hello_world(VALUE klass)
 
 void Init_kmp()
 {
-  VALUE mStree = rb_define_module("Kmp");
-  rb_define_singleton_method(mStree, "hello_world", hello_world, 0);
-  show();
+  VALUE mKmp = rb_define_module("Kmp");
+  rb_define_singleton_method(mKmp, "hello_world", hello_world, 0);
+  show(mKmp);
 }
