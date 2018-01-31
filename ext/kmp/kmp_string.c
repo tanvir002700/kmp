@@ -8,5 +8,5 @@ static VALUE test(VALUE klass)
 void show(VALUE mKmp)
 {
     rb_warn("ok");
-    rb_define_singleton_method(mKmp, "test", test, 0);
+    VALUE cKmpString = rb_define_class_under(mKmp, "String", rb_cObject);
 }
