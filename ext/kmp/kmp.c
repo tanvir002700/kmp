@@ -10,5 +10,5 @@ void Init_kmp()
 {
   VALUE mKmp = rb_define_module("Kmp");
   rb_define_singleton_method(mKmp, "hello_world", hello_world, 0);
-  show(mKmp);
+  Init_kmp_string(mKmp);
 }
