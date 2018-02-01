@@ -24,16 +24,9 @@ static VALUE initialize(VALUE self, VALUE rb_string)
 
     strcpy(str, data);
     rb_iv_set(self, "@str", rb_string);
+    rb_iv_set(self, "@length", INT2NUM(strlen(str)));
 
     return self;
-}
-
-static VALUE length(VALUE self)
-{
-    char * str;
-    Data_Get_Struct(self, char, str);
-    int len = strlen(str);
-    return INT2NUM(len);
 }
 
 static int* compute_prefix(char *str)
@@ -95,8 +88,8 @@ void Init_kmp_string(VALUE mKmp)
 
     rb_define_alloc_func(cKmpString, allocate);
     rb_define_method(cKmpString, "initialize", initialize, 1);
-    rb_define_method(cKmpString, "length", length, 0);
     rb_define_method(cKmpString, "match", match, 1);
     rb_define_attr(cKmpString, "str", 1, 0);
+    rb_define_attr(cKmpString, "length", 1, 0);
 }
 
