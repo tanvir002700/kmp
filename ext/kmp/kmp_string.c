@@ -36,22 +36,40 @@ static VALUE length(VALUE self)
     return INT2NUM(len);
 }
 
-static char* compute_prefix(char *str)
+static int* compute_prefix(char *str)
 {
+    int len = strlen(str);
 
+    int * prefix;
+    prefix = calloc(len+1, sizeof(int));
+    prefix[0]=-1;
+    int k=-1;
+    for(int i=1; i<len; i++)
+    {
+        while(k>-1 && str[k+1]!=str[i])k=prefix[k];
+        if(str[k+1]==str[i])k=k+1;
+        prefix[i]=k;
+    }
+    for(int i=0; i<len; i++) prefix[i]++;
+    return prefix;
 }
 
 static VALUE match(VALUE self, VALUE rb_str)
 {
     char * str;
     char * ptrn;
+    int * prefix;
 
     Data_Get_Struct(self, char, str);
 
     ptrn = calloc(RSTRING_LEN(rb_str), sizeof(char));
     memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
+    prefix = compute_prefix(ptrn);
+    for(int i=0; i< strlen(ptrn); i++)
+    {
+        fprintf(stderr, "%d\n", prefix[i]);
+    }
 
-    fprintf(stderr, "%s\n", ptrn);
     return Qtrue;
 }
 
