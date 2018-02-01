@@ -3,5 +3,5 @@
 
 #include<ruby.h>
 
-void show();
+void Init_kmp_string(VALUE mKmp);
 #endif
