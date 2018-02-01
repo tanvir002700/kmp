@@ -44,10 +44,15 @@ static void compute_prefix(char *str)
 static VALUE match(VALUE self, VALUE rb_str)
 {
     char * str;
+    char * ptrn;
 
     Data_Get_Struct(self, char, str);
 
+    ptrn = calloc(RSTRING_LEN(rb_str), sizeof(char));
+    memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
+
     rb_warn(RSTRING(str));
+    rb_warn(RSTRING(ptrn));
     return Qtrue;
 }
 
