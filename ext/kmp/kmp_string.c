@@ -55,6 +55,7 @@ static int* compute_prefix(char *str)
 
 static VALUE match(VALUE self, VALUE rb_str)
 {
+    VALUE positions = rb_ary_new();
     char * str;
     char * ptrn;
     int * prefix;
@@ -79,12 +80,13 @@ static VALUE match(VALUE self, VALUE rb_str)
         if(ptrn[q+1]==str[i])q=q+1;
         if(q==m-1)
         {
-            fprintf(stderr, "Matched %d\n", i-m+1);
+            rb_ary_push(positions, INT2NUM(i-m+1));
             q=prefix[q];
         }
     }
+    free(prefix);
 
-    return Qtrue;
+    return positions;
 }
 
 void Init_kmp_string(VALUE mKmp)
