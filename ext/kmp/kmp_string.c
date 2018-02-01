@@ -22,9 +22,6 @@ static VALUE initialize(VALUE self, VALUE rb_string)
     data = calloc(RSTRING_LEN(rb_string), sizeof(char));
     memcpy(data, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
 
-    rb_warn(data);
-    rb_warn(str);
-
     strcpy(str, data);
 
     return self;
@@ -39,6 +36,21 @@ static VALUE length(VALUE self)
     return INT2NUM(len);
 }
 
+static void compute_prefix(char *str)
+{
+
+}
+
+static VALUE match(VALUE self, VALUE rb_str)
+{
+    char * str;
+
+    Data_Get_Struct(self, char, str);
+
+    rb_warn(RSTRING(str));
+    return Qtrue;
+}
+
 void Init_kmp_string(VALUE mKmp)
 {
     VALUE cKmpString = rb_define_class_under(mKmp, "String", rb_cObject);
@@ -46,5 +58,6 @@ void Init_kmp_string(VALUE mKmp)
     rb_define_alloc_func(cKmpString, allocate);
     rb_define_method(cKmpString, "initialize", initialize, 1);
     rb_define_method(cKmpString, "length", length, 0);
-
+    rb_define_method(cKmpString, "match", match, 1);
 }
+
