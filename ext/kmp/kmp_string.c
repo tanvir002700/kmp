@@ -50,7 +50,6 @@ static int* compute_prefix(char *str)
         if(str[k+1]==str[i])k=k+1;
         prefix[i]=k;
     }
-    for(int i=0; i<len; i++) prefix[i]++;
     return prefix;
 }
 
@@ -68,6 +67,21 @@ static VALUE match(VALUE self, VALUE rb_str)
     for(int i=0; i< strlen(ptrn); i++)
     {
         fprintf(stderr, "%d\n", prefix[i]);
+    }
+
+    int n = strlen(str);
+    int m = strlen(ptrn);
+
+    int q = -1;
+    for(int i=0; i<n; i++)
+    {
+        while(q>-1 && ptrn[q+1]!=str[i])q=prefix[q];
+        if(ptrn[q+1]==str[i])q=q+1;
+        if(q==m-1)
+        {
+            fprintf(stderr, "Matched %d\n", i-m+1);
+            q=prefix[q];
+        }
     }
 
     return Qtrue;
