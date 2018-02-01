@@ -35,13 +35,15 @@ static int* compute_prefix(char *str)
 
     int * prefix;
     prefix = calloc(len+1, sizeof(int));
-    prefix[0]=-1;
-    int k=-1;
+
+    prefix[0] = -1;
+    int k = -1;
+
     for(int i=1; i<len; i++)
     {
-        while(k>-1 && str[k+1]!=str[i])k=prefix[k];
-        if(str[k+1]==str[i])k=k+1;
-        prefix[i]=k;
+        while( k>-1 && str[k+1]!=str[i] ) k = prefix[k];
+        if( str[k+1] == str[i] ) k = k+1;
+        prefix[i] = k;
     }
     return prefix;
 }
@@ -57,11 +59,8 @@ static VALUE match(VALUE self, VALUE rb_str)
 
     ptrn = calloc(RSTRING_LEN(rb_str), sizeof(char));
     memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
+
     prefix = compute_prefix(ptrn);
-    for(int i=0; i< strlen(ptrn); i++)
-    {
-        fprintf(stderr, "%d\n", prefix[i]);
-    }
 
     int n = strlen(str);
     int m = strlen(ptrn);
@@ -69,12 +68,12 @@ static VALUE match(VALUE self, VALUE rb_str)
     int q = -1;
     for(int i=0; i<n; i++)
     {
-        while(q>-1 && ptrn[q+1]!=str[i])q=prefix[q];
-        if(ptrn[q+1]==str[i])q=q+1;
-        if(q==m-1)
+        while( q>-1 && ptrn[q+1]!=str[i] ) q = prefix[q];
+        if( ptrn[q+1]==str[i] ) q = q+1;
+        if( q==m-1 )
         {
             rb_ary_push(positions, INT2NUM(i-m+1));
-            q=prefix[q];
+            q = prefix[q];
         }
     }
     free(prefix);
