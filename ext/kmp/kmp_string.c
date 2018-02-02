@@ -1,31 +1,31 @@
 #include<ruby.h>
 #include<string.h>
 
-struct data
+struct Str
 {
     char * ptr;
 };
 
-static void deallocate(struct data *str)
+static void deallocate(struct Str *str)
 {
     free(str);
 }
 
 static VALUE allocate(VALUE klass)
 {
-    struct data * str = (struct data *)malloc(sizeof(struct data));
+    struct Str * str = (struct Str *)malloc(sizeof(struct Str));
 
-    VALUE obj = Data_Make_Struct(klass, struct data, NULL, deallocate, str);
+    VALUE obj = Data_Make_Struct(klass, struct Str, NULL, deallocate, str);
     str->ptr = NULL;
     return obj;
 }
 
 static VALUE initialize(VALUE self, VALUE rb_string)
 {
-    struct data * str;
+    struct Str * str;
 
     Check_Type(rb_string, T_STRING);
-    Data_Get_Struct(self, struct data, str);
+    Data_Get_Struct(self, struct Str, str);
 
     str->ptr = calloc(RSTRING_LEN(rb_string) , sizeof(char));
     memcpy(str->ptr, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
@@ -58,12 +58,12 @@ static int* compute_prefix(char *str)
 static VALUE match(VALUE self, VALUE rb_str)
 {
     VALUE positions = rb_ary_new();
-    struct data * obj;
+    struct Str * obj;
     char * str;
     char * ptrn;
     int * prefix;
 
-    Data_Get_Struct(self, struct data, obj);
+    Data_Get_Struct(self, struct Str, obj);
     str = calloc(strlen(obj->ptr), sizeof(char));
     strcpy(str, obj->ptr);
 
