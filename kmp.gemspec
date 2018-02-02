@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coveralls', '~> 0.8.21'
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency 'rake-compiler', '>= 0'
+  spec.add_development_dependency 'rake-compiler', '~> 1.0', '>= 1.0.0'
   spec.extensions = %w[ext/kmp/extconf.rb]
 end
