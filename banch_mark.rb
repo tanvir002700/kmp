@@ -4,6 +4,7 @@ require "bundler/setup"
 require "kmp"
 
 txt = ''
-50000.times{txt << 'abc'}
+50.times{txt << 'abc'}
 
-ktxt = Kmp::String.new txt
+a = Kmp::String.new txt
+puts a.length

@@ -1,20 +1,39 @@
 #include<ruby.h>
 #include<string.h>
 
-static void deallocate(char *str)
+struct data
 {
+    int length;
+    char * ptr;
+};
+
+static void deallocate(struct data *str)
+{
+    fprintf(stderr, "Delete String: %s\n", str->ptr);
     free(str);
 }
 
 static VALUE allocate(VALUE klass)
 {
-    char * str = (char *)malloc(sizeof(char));
-    return Data_Wrap_Struct(klass, 0, deallocate, str);
+    struct data * str = (struct data *)malloc(sizeof(struct data));
+
+    //VALUE obj = Data_Wrap_Struct(klass, struct data, deallocate, str);
+    VALUE obj = Data_Make_Struct(klass, struct data, NULL, deallocate, str);
+    str->ptr = NULL;
+    str->length = 0;
+    return obj;
 }
 
 static VALUE initialize(VALUE self, VALUE rb_string)
 {
+    struct data * str;
+
     Check_Type(rb_string, T_STRING);
+    Data_Get_Struct(self, struct data, str);
+
+    str->ptr = calloc(RSTRING_LEN(rb_string) , sizeof(char));
+    memcpy(str->ptr, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
+    fprintf(stderr, "%s\n", str->ptr);
 
     rb_iv_set(self, "@str", rb_string);
     rb_iv_set(self, "@length", INT2NUM(RSTRING_LEN(rb_string)));
