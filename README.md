@@ -1,6 +1,7 @@
 # Kmp
 [![Build Status](https://travis-ci.org/tanvir002700/kmp.svg?branch=master)](https://travis-ci.org/tanvir002700/kmp)
 [![Maintainability](https://api.codeclimate.com/v1/badges/69f40101eeb294c05163/maintainability)](https://codeclimate.com/github/tanvir002700/kmp/maintainability)
+[![Coverage Status](https://coveralls.io/repos/github/tanvir002700/kmp/badge.svg?branch=master)](https://coveralls.io/github/tanvir002700/kmp?branch=master)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kmp`. To experiment with that code, run `bin/console` for an interactive prompt.
 
