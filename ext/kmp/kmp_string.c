@@ -1,13 +1,15 @@
 #include<ruby.h>
 #include<string.h>
 
-static void deallocate(void * str)
+static void deallocate(char * str)
 {
-    free((char *) str);
+    fprintf(stderr, "Call deallocate method");
+    free(str);
 }
 
 static void allocate(VALUE klass)
 {
+    fprintf(stderr, "Call allocate method");
     char * str = malloc(sizeof(char));
     return Data_Wrap_Struct(klass, NULL, deallocate, str);
 }
@@ -15,14 +17,11 @@ static void allocate(VALUE klass)
 static VALUE initialize(VALUE self, VALUE rb_string)
 {
     char * str;
-    void * data;
 
     Check_Type(rb_string, T_STRING);
     Data_Get_Struct(self, char, str);
-    data = calloc(RSTRING_LEN(rb_string), sizeof(char));
-    memcpy(data, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
+    memcpy(str, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
 
-    strcpy(str, data);
     rb_iv_set(self, "@str", rb_string);
     rb_iv_set(self, "@length", INT2NUM(strlen(str)));
 
