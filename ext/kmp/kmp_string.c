@@ -3,13 +3,11 @@
 
 struct data
 {
-    int length;
     char * ptr;
 };
 
 static void deallocate(struct data *str)
 {
-    fprintf(stderr, "Delete String: %s\n", str->ptr);
     free(str);
 }
 
@@ -17,10 +15,8 @@ static VALUE allocate(VALUE klass)
 {
     struct data * str = (struct data *)malloc(sizeof(struct data));
 
-    //VALUE obj = Data_Wrap_Struct(klass, struct data, deallocate, str);
     VALUE obj = Data_Make_Struct(klass, struct data, NULL, deallocate, str);
     str->ptr = NULL;
-    str->length = 0;
     return obj;
 }
 
@@ -33,7 +29,6 @@ static VALUE initialize(VALUE self, VALUE rb_string)
 
     str->ptr = calloc(RSTRING_LEN(rb_string) , sizeof(char));
     memcpy(str->ptr, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
-    fprintf(stderr, "%s\n", str->ptr);
 
     rb_iv_set(self, "@str", rb_string);
     rb_iv_set(self, "@length", INT2NUM(RSTRING_LEN(rb_string)));
@@ -63,13 +58,14 @@ static int* compute_prefix(char *str)
 static VALUE match(VALUE self, VALUE rb_str)
 {
     VALUE positions = rb_ary_new();
+    struct data * obj;
     char * str;
     char * ptrn;
     int * prefix;
 
-    VALUE r_str = rb_iv_get(self, "@str");
-    str = calloc(RSTRING_LEN(r_str), sizeof(char));
-    memcpy(str, StringValuePtr(r_str), RSTRING_LEN(r_str));
+    Data_Get_Struct(self, struct data, obj);
+    str = calloc(strlen(obj->ptr), sizeof(char));
+    strcpy(str, obj->ptr);
 
     ptrn = calloc(RSTRING_LEN(rb_str), sizeof(char));
     memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
