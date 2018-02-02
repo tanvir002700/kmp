@@ -1,29 +1,23 @@
 #include<ruby.h>
 #include<string.h>
 
-static void deallocate(char * str)
+static void deallocate(char *str)
 {
-    fprintf(stderr, "Call deallocate method");
     free(str);
 }
 
-static void allocate(VALUE klass)
+static VALUE allocate(VALUE klass)
 {
-    fprintf(stderr, "Call allocate method");
-    char * str = malloc(sizeof(char));
-    return Data_Wrap_Struct(klass, NULL, deallocate, str);
+    char * str = (char *)malloc(sizeof(char));
+    return Data_Wrap_Struct(klass, 0, deallocate, str);
 }
 
 static VALUE initialize(VALUE self, VALUE rb_string)
 {
-    char * str;
-
     Check_Type(rb_string, T_STRING);
-    Data_Get_Struct(self, char, str);
-    memcpy(str, StringValuePtr(rb_string), RSTRING_LEN(rb_string));
 
     rb_iv_set(self, "@str", rb_string);
-    rb_iv_set(self, "@length", INT2NUM(strlen(str)));
+    rb_iv_set(self, "@length", INT2NUM(RSTRING_LEN(rb_string)));
 
     return self;
 }
@@ -54,7 +48,9 @@ static VALUE match(VALUE self, VALUE rb_str)
     char * ptrn;
     int * prefix;
 
-    Data_Get_Struct(self, char, str);
+    VALUE r_str = rb_iv_get(self, "@str");
+    str = calloc(RSTRING_LEN(r_str), sizeof(char));
+    memcpy(str, StringValuePtr(r_str), RSTRING_LEN(r_str));
 
     ptrn = calloc(RSTRING_LEN(rb_str), sizeof(char));
     memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
@@ -76,6 +72,8 @@ static VALUE match(VALUE self, VALUE rb_str)
         }
     }
     free(prefix);
+    free(ptrn);
+    free(str);
 
     return positions;
 }
