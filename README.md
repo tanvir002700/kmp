@@ -5,9 +5,8 @@
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/tanvir002700/kmp/master.svg)](https://github.com/tanvir002700/kmp)
 [![license](https://img.shields.io/github/license/tanvir002700/kmp.svg)](https://github.com/tanvir002700/kmp/blob/master/LICENSE)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kmp`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is KMP (Knuth–Morris–Pratt algorithm) implemantation with c Extension.
+A super first substring find technique in a big string.
 
 ## Installation
 
@@ -27,7 +26,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+``` ruby
+require 'kmp'
+k = Kmp::String.new 'abcdeab'
+k.match 'ab' #=> [0, 4]
+
+k.length #=> 7
+```
+
+## Complexity
+
+- match function complexity O(N+M), N original text string length, M match string length
+- length complexity O(1)
 
 ## Development
 
