@@ -25,6 +25,10 @@ module Kmp
         expect(String.new('ababacaababacaab').match('ababaca')).to match_array [0, 7]
       end
 
+      it 'return empty array' do
+        expect(String.new('ababacaababacaab').match('ababacafdkadjfkdjfkjsf')).to match_array []
+      end
+
       it 'return 100 occurance' do
         txt = ''
         100.times { txt << 'abc'}
