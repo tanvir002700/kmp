@@ -31,5 +31,11 @@ module Kmp
         expect(String.new(txt).match('abc').size).to eq(100)
       end
     end
+
+    describe '#inspect' do
+      it 'return actual string' do
+        expect(String.new('abc').inspect).to eq('abc')
+      end
+    end
   end
 end
