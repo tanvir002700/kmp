@@ -28,8 +28,7 @@ def kmp_ruby(txt, ptrn)
   pos = []
 
   q = -1
-  (n-1).times do |i|
-    i = i + 1
+  (n).times do |i|
     while(q>-1 && ptrn[q+1]!=txt[i]) do
       q = prefix[q]
     end
@@ -41,11 +40,12 @@ def kmp_ruby(txt, ptrn)
       q = prefix[q]
     end
   end
+  return pos
 end
 
 #(0...50).map { ('a'..'z').to_a[rand(26)] }.join
 txt = ''
-10000.times{txt << 'abc'}
+1000000.times{txt << 'abc'}
 
 t1 = Time.now
 a = Kmp::String.new txt
@@ -53,7 +53,7 @@ a.match 'abcabcabcabcabcabc'
 puts (Time.now - t1).to_f
 
 t1 = Time.now
-puts kmp_ruby(txt, 'abcabcabcabcabcabc')
+kmp_ruby(txt, 'abcabcabcabcabcabc')
 puts Time.now - t1
 
 
