@@ -36,13 +36,13 @@ static VALUE initialize(VALUE self, VALUE rb_string)
     return self;
 }
 
-static int* compute_prefix(const char *str)
+static int* compute_prefix(char *str)
 {
     int len = strlen(str);
     int k = -1;
     int * prefix;
 
-    prefix = calloc(len+1, sizeof(int));
+    prefix = (int *) calloc(len+1, sizeof(int));
     prefix[0] = -1;
 
     for(int i=1; i<len; i++)
@@ -64,10 +64,10 @@ static VALUE match(VALUE self, VALUE rb_str)
     int n,m,q;
 
     Data_Get_Struct(self, struct Str, obj);
-    str = calloc(strlen(obj->ptr), sizeof(char));
+    str = calloc(strlen(obj->ptr) + 1, sizeof(char));
     strcpy(str, obj->ptr);
 
-    ptrn = calloc(RSTRING_LEN(rb_str) + 1, sizeof(char));
+    ptrn = (char *) calloc(RSTRING_LEN(rb_str) + 1, sizeof(char));
     memcpy(ptrn, StringValuePtr(rb_str), RSTRING_LEN(rb_str));
 
     prefix = compute_prefix(ptrn);
