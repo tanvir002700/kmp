@@ -41,6 +41,82 @@ k.length #=> 7
 - match function complexity O(N+M), N original text string length, M match string length
 - length complexity O(1)
 
+## Benchmark
+This benchmark between kmp implementation in c-extenstion vs pure ruby. [Benchmark](http://ruby-doc.org/stdlib-2.0.0/libdoc/benchmark/rdoc/Benchmark.html) module use for comparison.
+
+```
+lenght of string: 500
+Rehearsal -----------------------------------------------
+c-extension   0.000000   0.000000   0.000000 (  0.000028)
+ruby          0.000000   0.000000   0.000000 (  0.001067)
+-------------------------------------- total: 0.000000sec
+
+                  user     system      total        real
+c-extension   0.000000   0.000000   0.000000 (  0.000019)
+ruby          0.000000   0.000000   0.000000 (  0.000731)
+
+lenght of string: 5000
+Rehearsal -----------------------------------------------
+c-extension   0.000000   0.000000   0.000000 (  0.000074)
+ruby          0.000000   0.000000   0.000000 (  0.006990)
+-------------------------------------- total: 0.000000sec
+
+                  user     system      total        real
+c-extension   0.000000   0.000000   0.000000 (  0.000059)
+ruby          0.000000   0.000000   0.000000 (  0.003058)
+
+lenght of string: 50000
+Rehearsal -----------------------------------------------
+c-extension   0.000000   0.000000   0.000000 (  0.000276)
+ruby          0.030000   0.000000   0.030000 (  0.022061)
+-------------------------------------- total: 0.030000sec
+
+                  user     system      total        real
+c-extension   0.000000   0.000000   0.000000 (  0.000117)
+ruby          0.010000   0.000000   0.010000 (  0.014624)
+
+lenght of string: 500000
+Rehearsal -----------------------------------------------
+c-extension   0.000000   0.000000   0.000000 (  0.001346)
+ruby          0.140000   0.000000   0.140000 (  0.147500)
+-------------------------------------- total: 0.140000sec
+
+                  user     system      total        real
+c-extension   0.000000   0.000000   0.000000 (  0.001188)
+ruby          0.140000   0.000000   0.140000 (  0.146642)
+
+lenght of string: 5000000
+Rehearsal -----------------------------------------------
+c-extension   0.010000   0.000000   0.010000 (  0.013171)
+ruby          1.480000   0.010000   1.490000 (  1.482893)
+-------------------------------------- total: 1.500000sec
+
+                  user     system      total        real
+c-extension   0.010000   0.000000   0.010000 (  0.013098)
+ruby          1.510000   0.000000   1.510000 (  1.508361)
+
+lenght of string: 50000000
+Rehearsal -----------------------------------------------
+c-extension   0.120000   0.020000   0.140000 (  0.143160)
+ruby         16.320000   0.020000  16.340000 ( 16.356332)
+------------------------------------- total: 16.480000sec
+
+                  user     system      total        real
+c-extension   0.120000   0.010000   0.130000 (  0.143203)
+ruby         15.130000   0.050000  15.180000 ( 15.191924)
+
+lenght of string: 500000000
+Rehearsal -----------------------------------------------
+c-extension   1.190000   0.200000   1.390000 (  1.491211)
+ruby        159.510000   0.210000 159.720000 (159.723059)
+------------------------------------ total: 161.110000sec
+
+                  user     system      total        real
+c-extension   1.270000   0.200000   1.470000 (  1.568321)
+ruby        161.190000   0.250000 161.440000 (161.449839)
+
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment. For compile c extension run `rake compile`.
