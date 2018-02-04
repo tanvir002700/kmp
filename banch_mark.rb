@@ -45,7 +45,7 @@ end
 
 #(0...50).map { ('a'..'z').to_a[rand(26)] }.join
 txt = ''
-1000000.times{txt << 'abc'}
+10000000.times{txt << 'abc'}
 
 t1 = Time.now
 a = Kmp::String.new txt
