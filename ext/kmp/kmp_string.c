@@ -36,7 +36,7 @@ static VALUE initialize(VALUE self, VALUE rb_string)
     return self;
 }
 
-static int* compute_prefix(char *str)
+static int* compute_prefix(const char *str)
 {
     int len = strlen(str);
     int k = -1;
