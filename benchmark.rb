@@ -43,17 +43,18 @@ def kmp_ruby(txt, ptrn)
   return pos
 end
 
-#(0...50).map { ('a'..'z').to_a[rand(26)] }.join
-txt = ''
-10000000.times{txt << 'abc'}
+require 'benchmark'
 
-t1 = Time.now
-a = Kmp::String.new txt
-a.match 'abcabcabcabcabcabc'
-puts (Time.now - t1).to_f
-
-t1 = Time.now
-kmp_ruby(txt, 'abcabcabcabcabcabc')
-puts Time.now - t1
-
-
+n = 1
+7.times do |t|
+  n = n * 10;
+  txt = ''
+  (n).times{txt << 'xpyyubzabcabcabcabcabcabcabcabcabcabcxyzabukxpyksl'}
+  puts "lenght of string: #{txt.size}"
+  a = Kmp::String.new(txt);
+  Benchmark.bmbm do |x|
+    x.report("c-extension") { a.match 'abcabcabcabcabcabc' }
+    x.report("ruby") { kmp_ruby(txt, 'abcabcabcabcabcabc') }
+  end
+  puts ""
+end
