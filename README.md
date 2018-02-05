@@ -31,7 +31,7 @@ Or install it yourself as:
 ``` ruby
 require 'kmp'
 k = Kmp::String.new 'abcdeab'
-k.match 'ab' #=> [0, 4]
+k.match 'ab' #=> [0, 5]
 
 k.length #=> 7
 ```
