@@ -93,6 +93,12 @@ static VALUE match(VALUE self, VALUE rb_str)
     return positions;
 }
 
+
+static VALUE replace(VALUE self, VALUE rb_str)
+{
+
+}
+
 void Init_kmp_string(VALUE mKmp)
 {
     VALUE cKmpString = rb_define_class_under(mKmp, "String", rb_cObject);
