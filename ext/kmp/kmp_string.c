@@ -120,7 +120,6 @@ static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
     occurance = rb_array_len(pos);
 
     int new_str_len = (current_str_len - (replace_str_len * occurance) + (sub_string_len * occurance));
-    fprintf(stderr, "new string length %d\n", new_str_len);
     new_str = (char *) calloc(new_str_len+1, sizeof(char));
 
     int indx = 0;
@@ -147,12 +146,13 @@ static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
         }
     }
 
-    fprintf(stderr, "new string: %s\n", new_str);
+    VALUE rb_new_str = rb_str_new2(new_str);
 
-    fprintf(stderr, "%d\n", RB_NUM2INT(arr[0]));
-    fprintf(stderr, "%d\n", arr[1]);
-    fprintf(stderr, "len: %d\n", rb_array_len(pos));
-    return pos;
+    free(new_str);
+    free(sub_str);
+    free(str);
+
+    return rb_new_str;
 }
 
 void Init_kmp_string(VALUE mKmp)
