@@ -94,9 +94,32 @@ static VALUE match(VALUE self, VALUE rb_str)
 }
 
 
-static VALUE replace(VALUE self, VALUE rb_str)
+static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
 {
+    struct Str * obj;
+    char * str;
+    Data_Get_Struct(self, struct Str, obj);
+    str = calloc(strlen(obj->ptr) + 1, sizeof(char));
+    strcpy(str, obj->ptr);
+    int current_str_len = strlen(str);
 
+    VALUE pos = match(self, rb_str);
+    VALUE * arr = rb_array_const_ptr(pos);
+
+    int replace_str_len, sub_string_len, occurance;
+
+    replace_str_len = RSTRING_LEN(rb_str);
+    sub_string_len = RSTRING_LEN(rb_string_sub);
+    occurance = rb_array_len(pos);
+
+    int new_str_len = (current_str_len - (replace_str_len * occurance) + (sub_string_len * occurance));
+    fprintf(stderr, "new string length %d\n", new_str_len);
+
+
+    fprintf(stderr, "%d\n", RB_NUM2INT(arr[0]));
+    fprintf(stderr, "%d\n", arr[1]);
+    fprintf(stderr, "len: %d\n", rb_array_len(pos));
+    return pos;
 }
 
 void Init_kmp_string(VALUE mKmp)
@@ -106,6 +129,7 @@ void Init_kmp_string(VALUE mKmp)
     rb_define_alloc_func(cKmpString, allocate);
     rb_define_method(cKmpString, "initialize", initialize, 1);
     rb_define_method(cKmpString, "match", match, 1);
+    rb_define_method(cKmpString, "replace", replace, 2);
     rb_define_attr(cKmpString, "str", 1, 0);
     rb_define_attr(cKmpString, "length", 1, 0);
 }
