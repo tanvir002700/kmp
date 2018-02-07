@@ -48,6 +48,14 @@ module Kmp
         it 'replace the match position with given string' do
           expect(str.replace('de', 'X')).to eq('abcXfghabcXf')
         end
+
+        it 'vanish the string' do
+          expect(str.replace('abcdefghabcdef', '')).to eq('')
+        end
+
+        it 'increase the string size' do
+          expect(str.replace('abcdefghabcdef', 'xyzjlsdfjadladfaerafadfa')).to eq('xyzjlsdfjadladfaerafadfa')
+        end
       end
     end
   end
