@@ -98,10 +98,17 @@ static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
 {
     struct Str * obj;
     char * str;
+    char * new_str;
+    char * sub_str;
+
     Data_Get_Struct(self, struct Str, obj);
     str = calloc(strlen(obj->ptr) + 1, sizeof(char));
     strcpy(str, obj->ptr);
     int current_str_len = strlen(str);
+
+    sub_str = (char *) calloc(RSTRING_LEN(rb_string_sub) + 1, sizeof(char));
+    memcpy(sub_str, StringValuePtr(rb_string_sub), RSTRING_LEN(rb_string_sub));
+
 
     VALUE pos = match(self, rb_str);
     VALUE * arr = rb_array_const_ptr(pos);
@@ -109,12 +116,38 @@ static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
     int replace_str_len, sub_string_len, occurance;
 
     replace_str_len = RSTRING_LEN(rb_str);
-    sub_string_len = RSTRING_LEN(rb_string_sub);
+    sub_string_len = strlen(sub_str);
     occurance = rb_array_len(pos);
 
     int new_str_len = (current_str_len - (replace_str_len * occurance) + (sub_string_len * occurance));
     fprintf(stderr, "new string length %d\n", new_str_len);
+    new_str = (char *) calloc(new_str_len+1, sizeof(char));
 
+    int indx = 0;
+    int occurance_indx = occurance ? 0 : -1;
+    int str_indx = 0;
+
+    while(str_indx<=new_str_len)
+    {
+        if(occurance_indx != -1 && occurance_indx<occurance && RB_NUM2INT(arr[occurance_indx]) == indx)
+        {
+            int sub_indx = 0;
+            while(sub_indx<sub_string_len)
+            {
+                new_str[str_indx] = sub_str[sub_indx];
+                str_indx++;
+                sub_indx++;
+            }
+            indx += replace_str_len;
+            occurance_indx++;
+        }
+        else
+        {
+            new_str[str_indx++] = str[indx++];
+        }
+    }
+
+    fprintf(stderr, "new string: %s\n", new_str);
 
     fprintf(stderr, "%d\n", RB_NUM2INT(arr[0]));
     fprintf(stderr, "%d\n", arr[1]);
