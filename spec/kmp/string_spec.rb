@@ -41,5 +41,14 @@ module Kmp
         expect(String.new('abc').inspect).to eq('abc')
       end
     end
+
+    describe '#replace' do
+      context 'replace the match sub string with given string' do
+        let(:str) { String.new 'abcdefghabcdef' }
+        it 'replace the match position with given string' do
+          expect(str.replace('de', 'X')).to eq('abcXfghabcXf')
+        end
+      end
+    end
   end
 end
