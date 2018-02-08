@@ -34,11 +34,14 @@ k = Kmp::String.new 'abcdeab'
 k.match 'ab' #=> [0, 5]
 
 k.length #=> 7
+
+k.replace 'ab', 'X' #=> 'XcdeX'
 ```
 
 ## Complexity
 
 - match function complexity O(N+M), N original text string length, M match string length
+- replace function complexity O(N+M)
 - length complexity O(1)
 
 ## Benchmark
