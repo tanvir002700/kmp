@@ -103,6 +103,9 @@ static VALUE replace(VALUE self, VALUE rb_str, VALUE rb_string_sub)
     char * new_str;
     char * sub_str;
 
+    Check_Type(rb_str, T_STRING);
+    Check_Type(rb_string_sub, T_STRING);
+
     Data_Get_Struct(self, struct Str, obj);
     str = calloc(strlen(obj->ptr) + 1, sizeof(char));
     strcpy(str, obj->ptr);
