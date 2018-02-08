@@ -1,6 +1,12 @@
 module Kmp
   RSpec.describe String, type: :class do
     describe 'Kmp::String' do
+      context 'Check new method parameter validity' do
+        it 'return method error exception' do
+          expect{String.new 1}.to raise_error(TypeError)
+        end
+      end
+
       context 'new method' do
         it 'initialize object successfully' do
           expect(String.new('abc')).to be_a String
@@ -21,6 +27,12 @@ module Kmp
     end
 
     describe '#match' do
+      context 'Check method parameter validity' do
+        it 'return method error exception' do
+          expect{String.new('ababacaababacaab').match(1)}.to raise_error(TypeError)
+        end
+      end
+
       it 'return all occurance of string' do
         expect(String.new('ababacaababacaab').match('ababaca')).to match_array [0, 7]
       end
@@ -43,6 +55,12 @@ module Kmp
     end
 
     describe '#replace' do
+      context 'Check replace method parameter validity' do
+        it 'return method error exception' do
+          expect{String.new('ababacaababacaab').replace(1,2)}.to raise_error(TypeError)
+        end
+      end
+
       context 'replace the match sub string with given string' do
         let(:str) { String.new 'abcdefghabcdef' }
         it 'replace the match position with given string' do
