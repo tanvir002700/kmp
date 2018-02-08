@@ -63,6 +63,8 @@ static VALUE match(VALUE self, VALUE rb_str)
     int * prefix;
     int n,m,q;
 
+    Check_Type(rb_str, T_STRING);
+
     Data_Get_Struct(self, struct Str, obj);
     str = calloc(strlen(obj->ptr) + 1, sizeof(char));
     strcpy(str, obj->ptr);
