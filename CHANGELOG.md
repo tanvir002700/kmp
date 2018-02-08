@@ -6,3 +6,7 @@
 * memory allocation bug fix
 * make function pointer constant
 * improve code standard
+
+## v0.3.0
+* Remove unnecessary test methods
+* add replace method
