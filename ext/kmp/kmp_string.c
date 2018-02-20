@@ -8,6 +8,7 @@ struct Str
 
 static void deallocate(struct Str *str)
 {
+    if(str->ptr) free(str->ptr);
     free(str);
 }
 
